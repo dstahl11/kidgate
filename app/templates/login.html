@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>KidGate — Sign in</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <div class="wrap">
+    <div class="login-box">
+      <header><h1>🛡️ KidGate</h1></header>
+      {% if error %}<div class="banner err show">{{ error }}</div>{% endif %}
+      <form method="post" action="/login">
+        <input name="username" placeholder="Username" autocomplete="username" autofocus>
+        <input name="password" type="password" placeholder="Password" autocomplete="current-password">
+        <button class="primary allow" type="submit">Sign in</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>KidGate — Audit log</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>🛡️ Audit log</h1>
+      <a href="/">← Back</a>
+    </header>
+    <table>
+      <thead><tr><th>When (UTC)</th><th>Who</th><th>Action</th><th>State</th><th>Detail</th></tr></thead>
+      <tbody>
+        {% for e in entries %}
+        <tr>
+          <td>{{ e.ts.strftime("%m-%d %H:%M:%S") }}</td>
+          <td>{{ e.actor }}</td>
+          <td>{{ e.action }}</td>
+          <td>{{ e.result_state }}</td>
+          <td>{{ e.detail }}</td>
+        </tr>
+        {% else %}
+        <tr><td colspan="5" style="color:var(--muted)">No activity yet.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>

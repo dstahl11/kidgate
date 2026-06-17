@@ -1,0 +1,24 @@
+# Secrets — never commit
+.env
+*.env
+!.env.example
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# App data
+*.db
+*.sqlite
+*.sqlite3
+data/
+
+# Build / deploy artifacts
+*.tar.gz
+
+# Tooling output
+.playwright-mcp/
+
+# OS
+.DS_Store

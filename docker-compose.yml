@@ -1,0 +1,29 @@
+services:
+  kidgate:
+    build: .
+    container_name: kidgate
+    restart: unless-stopped
+    # NOTE: we deliberately do NOT use `env_file:` — Compose interpolates ${...}
+    # in env_file values, which corrupts secrets containing a literal `$`
+    # (e.g. a UniFi password). Instead the app reads /app/.env itself via
+    # pydantic-settings (same as local dev), so values are passed through raw.
+    environment:
+      # ZoneInfo / scheduler use this; keep in sync with TIMEZONE in .env.
+      TZ: ${TIMEZONE:-America/New_York}
+      DB_PATH: /app/data/kidgate.db
+    ports:
+      # LAN-only (PRD §6). Replace 0.0.0.0 with the host's LAN IP to pin the bind,
+      # e.g. "192.168.1.50:8099:8099". Do NOT expose this port publicly.
+      - "8099:8099"
+    volumes:
+      - kidgate-data:/app/data
+      # App reads its config from here directly (avoids Compose interpolation).
+      - ./.env:/app/.env:ro
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:8099/healthz').status==200 else 1)"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+volumes:
+  kidgate-data:
