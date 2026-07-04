@@ -3,17 +3,23 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b1120">
   <title>KidGate — Audit log</title>
+  <link rel="apple-touch-icon" href="/static/icon.svg">
+  <link rel="icon" href="/static/icon.svg">
   <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
   <div class="wrap">
     <header>
-      <h1>🛡️ Audit log</h1>
-      <a href="/">← Back</a>
+      <h1><img class="logo" src="/static/icon.svg" alt="" aria-hidden="true">Audit log</h1>
+      <div class="header-right"><a href="/">← Back</a></div>
     </header>
     <table>
-      <thead><tr><th>When (UTC)</th><th>Who</th><th>Action</th><th>State</th><th>Detail</th></tr></thead>
+      <caption class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Action history</caption>
+      <thead><tr>
+        <th scope="col">When (UTC)</th><th scope="col">Who</th><th scope="col">Action</th><th scope="col">State</th><th scope="col">Detail</th>
+      </tr></thead>
       <tbody>
         {% for e in entries %}
         <tr>

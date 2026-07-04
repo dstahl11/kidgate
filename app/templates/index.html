@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#0f172a">
+  <meta name="theme-color" content="#0b1120">
   <title>KidGate</title>
   <link rel="manifest" href="/static/manifest.webmanifest">
   <link rel="apple-touch-icon" href="/static/icon.svg">
@@ -13,43 +13,52 @@
 <body>
   <div class="wrap">
     <header>
-      <h1>🛡️ KidGate</h1>
-      <div>
+      <h1><img class="logo" src="/static/icon.svg" alt="" aria-hidden="true">KidGate</h1>
+      <div class="header-right">
         <span class="who">{{ user.name }}</span>
-        {% if user.role == 'admin' %} · <a href="/audit">Log</a>{% endif %}
-        · <form method="post" action="/logout" style="display:inline"><button type="submit">Sign out</button></form>
+        {% if user.role == 'admin' %}<span class="sep">·</span><a href="/audit">Log</a>{% endif %}
+        <form method="post" action="/logout" style="display:inline">
+          <button type="submit" class="signout">Sign out</button>
+        </form>
       </div>
     </header>
 
-    <div id="card" class="status-card unknown">
-      <div><span class="dot"></span><span id="state" class="state-label">Loading…</span></div>
+    <div id="card" class="status-card unknown" role="status" aria-live="polite" aria-atomic="true">
+      <div class="status-top"><span class="dot"></span><span id="state" class="state-label">Loading…</span></div>
       <div id="source" class="source"></div>
       <div id="countdown" class="countdown"></div>
     </div>
 
-    <button id="primary" class="primary block" data-action="">…</button>
-    <div id="banner" class="banner err"></div>
+    <button id="primary" class="primary block" data-action="" disabled>…</button>
+    <button id="retry" class="retry" style="display:none">Try again</button>
+    <div id="banner" class="banner err" role="alert"></div>
 
     <div class="section">
       <h2>Temporary block</h2>
       <div class="grid">
-        <button class="chip" data-temp="15">15 min</button>
-        <button class="chip" data-temp="30">30 min</button>
-        <button class="chip" data-temp="60">1 hour</button>
-        <button class="chip" data-bedtime="1">Until bedtime</button>
+        <button class="chip" data-temp="15" aria-label="Block internet for 15 minutes">15 min</button>
+        <button class="chip" data-temp="30" aria-label="Block internet for 30 minutes">30 min</button>
+        <button class="chip" data-temp="60" aria-label="Block internet for 1 hour">1 hour</button>
+        <button class="chip" data-bedtime="1" aria-label="Block internet until bedtime">Until bedtime</button>
       </div>
     </div>
 
     <div class="section" id="override-section">
       <h2>Bedtime override</h2>
       <div class="grid">
-        <button class="chip" data-override="15">+15 min</button>
-        <button class="chip" data-override="30">+30 min</button>
-        <button class="chip" data-override="60">+1 hour</button>
-        <button class="chip" data-cancel-override="1">End override</button>
+        <button class="chip" data-override="15" aria-label="Grant 15 more minutes past bedtime">+15 min</button>
+        <button class="chip" data-override="30" aria-label="Grant 30 more minutes past bedtime">+30 min</button>
+        <button class="chip" data-override="60" aria-label="Grant 1 more hour past bedtime">+1 hour</button>
+        <button class="chip" data-cancel-override="1" aria-label="End override and resume bedtime schedule">End override</button>
       </div>
     </div>
   </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite">
+    <span id="toast-msg"></span>
+    <button id="toast-undo" type="button">Undo</button>
+  </div>
+
   <script src="/static/app.js"></script>
 </body>
 </html>

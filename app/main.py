@@ -6,7 +6,7 @@ from contextlib import asynccontextmanager
 from pathlib import Path
 
 from fastapi import Depends, FastAPI, Form, Request
-from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
+from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from starlette.middleware.sessions import SessionMiddleware
@@ -143,6 +143,11 @@ async def api_override(request: Request, minutes: int = Form(...), user: dict = 
 @app.post("/api/cancel-override")
 async def api_cancel_override(request: Request, user: dict = Depends(auth.current_user)):
     return await _do(request, user, svc(request).cancel_override(_actor(user)))
+
+
+@app.get("/favicon.ico", include_in_schema=False)
+async def favicon():
+    return FileResponse(BASE_DIR / "static" / "icon.svg", media_type="image/svg+xml")
 
 
 @app.get("/healthz")
